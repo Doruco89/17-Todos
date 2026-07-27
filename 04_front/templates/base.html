@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>{% block title %}투두리스트{% endblock %}</title>
+  </head>
+  <body
+    class="min-h-screen bg-slate-50 text-slate-800"
+    style="font-family: &quot;Noto Sans KR&quot;, sans-serif"
+  >
+    <nav class="border-b border-slate-200 bg-white/90 backdrop-blur">
+      <div
+        class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8"
+      >
+        <a
+          href="/"
+          class="flex items-center gap-2 text-lg font-semibold text-slate-900"
+        >
+          <span
+            class="flex h-9 w-9 items-center justify-center rounded-2xl bg-indigo-600 text-sm font-bold text-white"
+            >T</span
+          >
+          TodoList
+        </a>
+
+        <div class="flex items-center gap-2 sm:gap-3">
+          <a
+            href="/write"
+            class="rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
+            >글쓰기</a
+          >
+          <a
+            href="/memos"
+            class="rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
+            >메모</a
+          >
+          <a
+            href="/signup"
+            class="rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
+            >회원가입</a
+          >
+          <a
+            href="/login"
+            class="rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700"
+            >로그인</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <div
+      class="flex min-h-[calc(100vh-73px)] items-center justify-center px-4 py-12"
+    >
+      <div
+        class="w-full max-w-6xl overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl"
+      >
+        <div class="grid md:grid-cols-2">
+          <div
+            class="bg-gradient-to-br from-indigo-600 via-violet-600 to-fuchsia-500 p-8 sm:p-10 text-white"
+          >
+            <p
+              class="text-sm font-semibold uppercase tracking-[0.3em] text-indigo-100"
+            >
+              Todo List
+            </p>
+            <h1 class="mt-4 text-3xl font-bold leading-tight">
+              당신의 일정을 더 깔끔하게
+            </h1>
+            <p class="mt-4 text-sm leading-7 text-indigo-100/90">
+              오늘의 할 일부터 장기 계획까지 한눈에 정리하고, 팀과 함께
+              효율적으로 관리해보세요.
+            </p>
+            <div
+              class="mt-8 rounded-2xl border border-white/20 bg-white/10 p-4 backdrop-blur"
+            >
+              <p class="text-sm font-medium">✨ 간편한 회원가입</p>
+              <p class="mt-2 text-sm text-indigo-100/90">
+                빠르게 계정을 만들고 바로 투두를 시작해보세요.
+              </p>
+            </div>
+          </div>
+
+          <div class="p-8 sm:p-10">{% block contents %}{% endblock %}</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

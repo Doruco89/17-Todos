@@ -1,0 +1,38 @@
+{% extends "base.html" %} {% block title %}홈 | 투두리스트{% endblock %} {%
+block contents %}
+<div class="w-full">
+  <div class="mb-8">
+    <p class="text-sm font-semibold uppercase tracking-[0.3em] text-indigo-600">
+      Welcome
+    </p>
+    <h2 class="mt-2 text-3xl font-bold text-slate-900">
+      당신의 일정을 더 쉽게 관리해보세요
+    </h2>
+    <p class="mt-3 text-sm leading-7 text-slate-600">
+      메모를 작성하고, 계획을 정리하고, 오늘의 할 일을 놓치지 않도록 도와주는
+      투두리스트입니다.
+    </p>
+  </div>
+
+  <div class="grid gap-4 md:grid-cols-3">
+    <div class="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+      <h3 class="text-lg font-semibold text-slate-900">📝 메모 작성</h3>
+      <p class="mt-2 text-sm text-slate-600">
+        생각나는 내용을 바로 기록해보세요.
+      </p>
+    </div>
+    <div class="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+      <h3 class="text-lg font-semibold text-slate-900">✅ 일정 관리</h3>
+      <p class="mt-2 text-sm text-slate-600">
+        해야 할 일을 정리하고 우선순위를 설정해보세요.
+      </p>
+    </div>
+    <div class="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+      <h3 class="text-lg font-semibold text-slate-900">📌 한눈에 보기</h3>
+      <p class="mt-2 text-sm text-slate-600">
+        모든 메모와 계획을 깔끔하게 확인할 수 있어요.
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

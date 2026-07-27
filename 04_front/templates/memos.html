@@ -1,0 +1,55 @@
+{% extends "base.html" %} {% block title %}내 메모 | 투두리스트{% endblock %} {%
+block contents %}
+<div class="w-full">
+  <div
+    class="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between"
+  >
+    <div>
+      <p
+        class="text-sm font-semibold uppercase tracking-[0.3em] text-indigo-600"
+      >
+        My Memos
+      </p>
+      <h2 class="mt-2 text-3xl font-bold text-slate-900">작성한 메모들</h2>
+      <p class="mt-2 text-sm text-slate-500">
+        지금까지 기록한 메모를 한눈에 확인해보세요.
+      </p>
+    </div>
+    <button
+      class="rounded-2xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-indigo-700"
+    >
+      + 새 메모
+    </button>
+  </div>
+
+  {% if memos %}
+  <div class="grid gap-4 md:grid-cols-2">
+    {% for memo in memos %}
+    <article
+      class="rounded-3xl border border-slate-200 bg-slate-50 p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+    >
+      <div class="flex items-start justify-between gap-3">
+        <h3 class="text-lg font-semibold text-slate-900">{{ memo.title }}</h3>
+        <span
+          class="rounded-full bg-indigo-100 px-2.5 py-1 text-xs font-medium text-indigo-700"
+          >memo #{{ memo.id }}</span
+        >
+      </div>
+      <p class="mt-3 whitespace-pre-line text-sm leading-7 text-slate-600">
+        {{ memo.content }}
+      </p>
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div
+    class="rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-10 text-center"
+  >
+    <p class="text-lg font-semibold text-slate-700">
+      아직 작성한 메모가 없습니다.
+    </p>
+    <p class="mt-2 text-sm text-slate-500">첫 번째 메모를 작성해 보세요.</p>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

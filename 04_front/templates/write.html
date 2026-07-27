@@ -1,0 +1,63 @@
+{% extends "base.html" %} {% block title %}메모 작성 | 투두리스트{% endblock %}
+{% block contents %}
+<div class="w-full max-w-2xl">
+  <div class="mb-8">
+    <p class="text-sm font-semibold uppercase tracking-[0.3em] text-indigo-600">
+      Write Memo
+    </p>
+    <h2 class="mt-2 text-3xl font-bold text-slate-900">새 메모 작성</h2>
+    <p class="mt-2 text-sm text-slate-500">
+      생각나는 내용을 적고 바로 저장해보세요.
+    </p>
+  </div>
+
+  <form
+    action="/write"
+    method="post"
+    class="space-y-5 rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm"
+  >
+    <div>
+      <label for="title" class="mb-2 block text-sm font-medium text-slate-700"
+        >제목</label
+      >
+      <input
+        id="title"
+        name="title"
+        type="text"
+        placeholder="메모 제목을 입력하세요"
+        required
+        class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
+      />
+    </div>
+
+    <div>
+      <label for="content" class="mb-2 block text-sm font-medium text-slate-700"
+        >내용</label
+      >
+      <textarea
+        id="content"
+        name="content"
+        rows="8"
+        placeholder="메모 내용을 입력하세요"
+        required
+        class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
+      ></textarea>
+    </div>
+
+    <div class="flex flex-col gap-3 sm:flex-row sm:justify-end">
+      <a
+        href="/memos"
+        class="rounded-2xl border border-slate-300 px-4 py-3 text-center text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
+      >
+        취소
+      </a>
+      <button
+        type="submit"
+        class="rounded-2xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700"
+      >
+        저장하기
+      </button>
+    </div>
+  </form>
+</div>
+{% endblock %}

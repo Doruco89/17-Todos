@@ -1,29 +1,30 @@
-from fastapi import FastAPI, Request, Depends, HTTPException
+from fastapi import APIRouter, Request, Depends, HTTPException
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 from schemas import UserCreate, UserLogin, MemoCreate, MemoUpdate
 from sqlalchemy.orm import Session
 from models import User, Memo
 from dependencies import get_password_hash, verify_password, get_db
-from main import app
 
+
+router = APIRouter()
 templates = Jinja2Templates(directory="templates")
 
-@app.get("/")
+@router.get("/")
 def read_root(request: Request): 
     return templates.TemplateResponse(request, "home.html")
 
-@app.get("/signup")
+@router.get("/signup")
 def read_signup(request: Request):
     return templates.TemplateResponse(request, "signup.html")
 
 # 회원가입
-@app.post("/signup")
+@router.post("/signup")
 def signup(signup_data: UserCreate, db: Session = Depends(get_db)):
     new_user = User(
         username=signup_data.username, 
-        email = signup_data.email, 
-        hashed_password = get_password_hash(signup_data.password)
+        email=signup_data.email, 
+        hashed_password=get_password_hash(signup_data.password)
     )
     db.add(new_user)
     db.commit() 
@@ -31,7 +32,7 @@ def signup(signup_data: UserCreate, db: Session = Depends(get_db)):
     return new_user
    
 # 로그인
-@app.post("/login")
+@router.post("/login")
 def login(
     request: Request, signin_data: UserLogin, db: Session = Depends(get_db)
 ):
@@ -41,20 +42,19 @@ def login(
         print(request.session)
         return {"message": "로그인이 성공했습니다."}
 
-@app.get("/login")
+@router.get("/login")
 def read_login(request: Request):
     return templates.TemplateResponse(request, "login.html")
 
 # 로그아웃
-@app.post("/logout")
+@router.post("/logout")
 def logout(request: Request):
     request.session.clear()
     return RedirectResponse(url="/login", status_code=303)
 
 # 메모생성
-@app.post("/memos")
+@router.post("/memos")
 async def create_memo(request: Request, db: Session = Depends(get_db)):
-
     username = request.session.get("username")
     if username is None: 
         raise HTTPException(status_code=401, detail="허가되지 않았습니다.")
@@ -74,7 +74,7 @@ async def create_memo(request: Request, db: Session = Depends(get_db)):
         title = form.get("title", "")
         content = form.get("content", "")
 
-    new_memo = Memo(user_id = user.id, title=title, content=content)
+    new_memo = Memo(user_id=user.id, title=title, content=content)
     db.add(new_memo)
     db.commit()
     db.refresh(new_memo)
@@ -85,12 +85,12 @@ async def create_memo(request: Request, db: Session = Depends(get_db)):
     return RedirectResponse(url="/memos", status_code=303)
 
 # 메모 글쓰기
-@app.get("/write")
+@router.get("/write")
 def memo_write(request: Request): 
     return templates.TemplateResponse(request, "write.html")
 
 # 메모조회
-@app.get("/memos")
+@router.get("/memos")
 def read_memos(request: Request, db: Session = Depends(get_db)):
     username = request.session.get("username")
     if username is None: 
@@ -99,7 +99,6 @@ def read_memos(request: Request, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.username == username).first()
     if user is None:
         raise HTTPException(status_code=404, detail="사용자를 찾을 수 없습니다.")
-
     
     memos = db.query(Memo).filter(Memo.user_id == user.id).all()
     accept_header = request.headers.get("accept", "")
@@ -112,8 +111,8 @@ def read_memos(request: Request, db: Session = Depends(get_db)):
     return templates.TemplateResponse(request, "memos.html", {"memos": memos})
 
 # 메모수정
-@app.put("/memos/{item_id}")
-def update_memo(request: Request, item_id: int, memo:MemoUpdate, db: Session = Depends(get_db)):
+@router.put("/memos/{item_id}")
+def update_memo(request: Request, item_id: int, memo: MemoUpdate, db: Session = Depends(get_db)):
     username = request.session.get("username")
     if username is None: 
         raise HTTPException(status_code=401, detail="허가되지 않았습니다.")
@@ -121,7 +120,6 @@ def update_memo(request: Request, item_id: int, memo:MemoUpdate, db: Session = D
     user = db.query(User).filter(User.username == username).first()
     if user is None:
         raise HTTPException(status_code=404, detail="사용자를 찾을 수 없습니다.")
-
     
     db_memo = db.query(Memo).filter(Memo.user_id == user.id, Memo.id == item_id).first()
 
@@ -138,9 +136,8 @@ def update_memo(request: Request, item_id: int, memo:MemoUpdate, db: Session = D
 
     return db_memo
 
-
 # 메모삭제
-@app.delete("/memos/{item_id}")
+@router.delete("/memos/{item_id}")
 def delete_memo(request: Request, item_id: int, db: Session = Depends(get_db)):
     username = request.session.get("username")
     if username is None: 
@@ -149,7 +146,6 @@ def delete_memo(request: Request, item_id: int, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.username == username).first()
     if user is None:
         raise HTTPException(status_code=404, detail="사용자를 찾을 수 없습니다.")
-
 
     db_memo = db.query(Memo).filter(Memo.user_id == user.id, Memo.id == item_id).first()
 
